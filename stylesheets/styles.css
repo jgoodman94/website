@@ -248,6 +248,13 @@ footer {
   -webkit-font-smoothing:subpixel-antialiased;
 }
 
+.social {
+  cursor: pointer;
+  font-size:3em;
+}
+
+
+
 @media print, screen and (max-width: 960px) {
 
   div.wrapper {
