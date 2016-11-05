@@ -1,0 +1,55 @@
+body {
+    background-color:white;
+}
+.instructions.banner {
+    padding:10px 20px 10px 20px;
+    position:absolute;
+    top:0;
+    left:0;
+    text-color:black;
+    opacity:0.5;
+    font-size:20px;
+}
+.node, .node-ghost {
+    border-radius:100%;
+    width: 20px;
+    height: 20px;
+    padding: 0.5em;
+    border: solid black 3px;
+    background: white;
+    text-align:center;
+    cursor:move;
+}
+.node:hover {
+    /*transform:scale(1.5);
+    -ms-transform:scale(1.5);
+    -moz-transform:scale(1.5);
+    -webkit-transform:scale(1.5);
+    -o-transform:scale(1.5);*/
+}
+
+.line {
+    border: solid black 2px;
+    background-color:black;
+    z-index:-1;
+}
+
+.node-ghost {
+    cursor:default;
+    opacity:0.25;
+    cursor:crosshair;
+}
+
+.selected {
+    border: solid red 3px;
+}
+
+.no-select {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Chrome/Safari/Opera */
+    -khtml-user-select: none; /* Konqueror */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently
+    not supported by any browser */
+}
