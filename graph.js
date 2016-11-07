@@ -32,6 +32,29 @@ function createLine(x1,y1, x2,y2) {
     return line;
 }
 
+// get adjacency matrix from adjacency lists representation
+function getAdjMatrix(adjLists) {
+    var numNodes = adjLists.length;
+    var adjMatrix = [];
+    for (var i = 0; i < numNodes; i++) {
+        var currRow = new Array(numNodes).fill(0);
+        for (var j = 0; j < adjLists[i].length; j++) {
+            currRow[adjLists[i][j]] = 1;
+        }
+        adjMatrix.push(currRow);
+    }
+    return adjMatrix;
+}
+
+function updateAdjMatrixHTML(adjLists) {
+    var adjMatrix = getAdjMatrix(adjLists);
+    var adjMatrixString = "";
+    for (var i = 0; i < adjMatrix.length; i++) {
+        adjMatrixString += adjMatrix[i].toString() + "<br>";
+    }
+    $('.adj-matrix.results').html(adjMatrixString);
+}
+
 $(function() {
     var nodeNbrs = [];
     var cursorX = 500;
@@ -41,6 +64,7 @@ $(function() {
 
     var usingColor = false;
     var selectedColor = "";
+    var adjMatrixPressed = false;
 
     var cmdDown = false;
     var existsSelectedNode = false;
@@ -74,6 +98,7 @@ $(function() {
             node.draggable();
             nodeCounter++;
             nodeNbrs.push([]);
+            updateAdjMatrixHTML(nodeNbrs);
         }
     });
 
@@ -204,7 +229,7 @@ $(function() {
                     // update data structure
                     nodeNbrs[currNodeID].push(selectedNodeID);
                     nodeNbrs[selectedNodeID].push(currNodeID);
-                    console.log(nodeNbrs);
+                    updateAdjMatrixHTML(nodeNbrs);
 
                     $('.node').removeClass('selected');
                     existsSelectedNode = false;
@@ -238,6 +263,16 @@ $(function() {
             selectedColor = $(this).css('background-color');
             console.log('selected color: ' + selectedColor);
             usingColor = true;
+        }
+    });
+
+    $(document).on('click', '.adj-matrix.footer', function() {
+        if ($(this).hasClass('pressed')) {
+            $('.adj-matrix.results').hide();
+            $(this).removeClass('pressed');
+        } else {
+            $(this).addClass('pressed');
+            $('.adj-matrix.results').show();
         }
     });
 });

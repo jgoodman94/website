@@ -114,8 +114,48 @@ html,body {
     cursor:crosshair;
 }
 
+.adj-matrix.footer {
+    font-size:20px;
+    position:absolute;
+    bottom:0;
+    left:0;
+    padding:10px 20px 10px 20px;
+    cursor:pointer;
+    border: solid white 2px;
+    margin:10px;
+}
+.adj-matrix.footer:hover {
+    background:white;
+}
+.adj-matrix.footer.pressed {
+    background-color:lightgrey;
+    color:black;
+    border: solid lightgrey 2px;
+    z-index:300;
+}
+.adj-matrix.results {
+    display:none;
+    color:black;
+    background:white;
+    font-size:1.5em;
+    border: solid lightgrey 3px;
+    position:absolute;
+    left:0;
+    bottom:54px;
+    margin:10px;
+    padding:10px 20px 10px 20px;
+    -o-user-select: text;
+    -moz-user-select: text;
+    -webkit-user-select: text;
+    user-select: text;
+}
+.adj-matrix.footer:hover{
+    border: solid lightgrey 2px;
+    color:black;
+}
+
 .selected {
-    border-style:double;
+    border-style:dotted;
 }
 
 .no-select {
