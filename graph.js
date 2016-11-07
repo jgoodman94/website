@@ -39,6 +39,9 @@ $(function() {
     var mousedown = false;
     var movingNodeID = -1;
 
+    var usingColor = false;
+    var selectedColor = "";
+
     var cmdDown = false;
     var existsSelectedNode = false;
     var selectedNodeID = -1;
@@ -153,7 +156,19 @@ $(function() {
         console.log('mouse up!');
     });
 
+    $(document).on('click', '.line', function() {
+        if (usingColor) {
+            $(this).css('border-color', selectedColor);
+            $(this).css('background', selectedColor);
+        }
+    });
+
     $(document).on('click', '.node', function() {
+        if (usingColor) {
+            $(this).css('background', selectedColor);
+            $(this).css('color', "black");
+            $(this).css('font-weight', 'bold');
+        }
         if (cmdDown) {
             if (!existsSelectedNode) {
                 $(this).addClass('selected');
@@ -200,5 +215,29 @@ $(function() {
             }
         }
     });
-
+    
+    $(document).on('click', '.color', function() {
+        if ($('.colors').hasClass('color-select')) {
+            if ($(this).hasClass('color-select')) {
+                // de-select color
+                $(this).removeClass('color-select');
+                $('.colors').removeClass('color-select');
+                usingColor = false;
+            } else {
+                // select new color
+                $('.color').removeClass('color-select');
+                $(this).addClass('color-select');
+                selectedColor = $(this).css('background-color');
+                console.log('selected color: ' + selectedColor);
+                usingColor = true; // redundant
+            }
+        } else {
+            // select first color
+            $('.colors').addClass('color-select');
+            $(this).addClass('color-select');
+            selectedColor = $(this).css('background-color');
+            console.log('selected color: ' + selectedColor);
+            usingColor = true;
+        }
+    });
 });

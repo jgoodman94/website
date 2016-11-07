@@ -1,7 +1,15 @@
-body {
+html,body {
     background-color:white;
+    width:100%;
+    height:100%;
+    padding:0;
+    margin:0;
 }
 .instructions.banner {
+    -o-user-select: text;
+    -moz-user-select: text;
+    -webkit-user-select: text;
+    user-select: text;
     padding:10px 20px 10px 20px;
     position:absolute;
     top:0;
@@ -9,8 +17,74 @@ body {
     text-color:black;
     opacity:0.5;
     font-size:20px;
+    width:100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.colors {
+    position:absolute;
+    top:0;
+    right:0;
+    width:50px;
+    height:100%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    opacity:0.15;
+}
+.colors:hover {
+    opacity:1;
+    cursor:pointer;
+}
+.color {
+    height:10%;
+    border-bottom:none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.color:hover {
+    border: solid white 2px;
+}
+.color-select {
+    opacity:1;
+}
+.color.color-select {
+    border: solid black 3px;
+}
+#red {
+    background-color:#ff0000;
+}
+#orange {
+    background-color:#ff9300;
+}
+#yellow {
+    background-color:#ffff00;
+}
+#lime {
+    background-color:#aeff00;
+}
+#green {
+    background-color:#1fff00;
+}
+#cyan {
+    background-color:#00ffff;
+}
+#sky {
+    background-color:#00b2ff;
+}
+#blue {
+    background-color:#0036ff;
+}
+#purple {
+    background-color:#9e00ff;
+}
+#pink {
+    background-color:#ff00d4;
 }
 .node, .node-ghost {
+    z-index:1;
     border-radius:100%;
     width: 20px;
     height: 20px;
@@ -31,7 +105,7 @@ body {
 .line {
     border: solid black 2px;
     background-color:black;
-    z-index:-1;
+    z-index:0;
 }
 
 .node-ghost {
@@ -41,7 +115,7 @@ body {
 }
 
 .selected {
-    border: solid red 3px;
+    border-style:double;
 }
 
 .no-select {
