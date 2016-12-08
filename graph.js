@@ -1,3 +1,4 @@
+
 // moves line line to (x1,y1), (x2,y2)
 function moveLine(line, x1,y1, x2,y2) {
     var length = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
@@ -14,21 +15,14 @@ function moveLine(line, x1,y1, x2,y2) {
 
 // create line from (x1,y1) to (x2,y2)
 function createLine(x1,y1, x2,y2) {
-    var length = Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
-    var angle = Math.atan2(y2-y1, x2-x1)*180/Math.PI;
-    var transform = 'rotate('+angle+'deg)';
-    var offsetLeft = x1 < x2 ? x1 : x2;
-    var offsetTop = y1 < y2 ? y1 : y2;
-
     var line =  $('<div>')
                 .appendTo(document.body)
                 .addClass('line')
                 .css({
                     'position':'absolute',
-                    'transform':transform
-                })
-                .width(length)
-                .offset({left:offsetLeft, top:offsetTop});
+                });
+    moveLine(line,x1,y1,x2,y2);
+    moveLine(line,x1,y1,x2,y2); // safari hack
     return line;
 }
 
@@ -109,7 +103,9 @@ $(function() {
         cursorX = e.pageX;
         cursorY = e.pageY;
 
-        var shiftKeyPressed = window.event.shiftKey;
+        // one of the below should be defined
+        var evt = e || window.event;
+        var shiftKeyPressed = evt.shiftKey;
         var x = (cursorX-20) + 'px';
         var y = (cursorY-20) + 'px';
 
@@ -132,6 +128,7 @@ $(function() {
     });
 
     $(document).on('keydown', function(e) {
+        console.log('key code is : ' + e.keyCode);
         if (e.keyCode == 16) {
             console.log('shift down');
 
@@ -145,7 +142,7 @@ $(function() {
 
             $(document.body).append(ghostNode);
         }
-        else if (e.keyCode == 91) {
+        else if (e.keyCode == 91 || e.keyCode == 93 || e.keyCode == 224 || e.keyCode == 17) {
             cmdDown = true;
         }
     });
@@ -153,11 +150,12 @@ $(function() {
         if (e.keyCode == 16) {
             console.log('shift up');
             ghostNode.remove();
-        } else if (e.keyCode == 91) {
+        } else if (e.keyCode == 91 || e.keyCode == 93 || e.keyCode == 224 || e.keyCode == 17) {
             cmdDown = false;
         }
     });
     $(document).on('mousemove', function(e) {
+        var evt = e || window.event;
         cursorX = e.pageX;
         cursorY = e.pageY;
         if (mousedown) {
@@ -186,7 +184,7 @@ $(function() {
 
                 moveLine(jline, x1,y1, x2, y2);
             });
-        } else if (window.event.shiftKey) {
+        } else if (evt.shiftKey) {
             // if in here, prepping to place new node
 
             var x = (cursorX-20) + 'px';
@@ -252,13 +250,16 @@ $(function() {
                     } else {
                         lineID = "edge:" + currNodeID + "." + selectedNodeID;
                     }
-                    line = createLine(selectedNodeX, selectedNodeY, currNodeX, currNodeY);
-                    line.attr('id', lineID);
+                    // only add line if it doesn't already exist
+                    if (!document.getElementById(lineID)) {
+                        line = createLine(selectedNodeX, selectedNodeY, currNodeX, currNodeY);
+                        line.attr('id', lineID);
                     
-                    // update data structure
-                    nodeNbrs[currNodeID].push(selectedNodeID);
-                    nodeNbrs[selectedNodeID].push(currNodeID);
-                    updateAdjMatrixHTML(nodeNbrs);
+                        // update data structure
+                        nodeNbrs[currNodeID].push(selectedNodeID);
+                        nodeNbrs[selectedNodeID].push(currNodeID);
+                        updateAdjMatrixHTML(nodeNbrs);
+                    }
 
                     $('.node').removeClass('selected');
                     existsSelectedNode = false;

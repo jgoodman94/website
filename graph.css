@@ -152,6 +152,7 @@ html,body {
     user-select: text;
 }
 .zooms {
+    display:none;
     position:absolute;
     bottom:0;
     right:50px;
@@ -179,7 +180,7 @@ html,body {
 }
 
 .selected {
-    border-style:dotted;
+    border-color:red;
 }
 
 .no-select {
