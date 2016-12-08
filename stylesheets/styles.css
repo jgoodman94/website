@@ -253,6 +253,14 @@ footer {
   font-size:3em;
 }
 
+.work-title {
+    color: #444;
+    font-weight: 500;
+}
+
+.section-title {
+    border-bottom: solid lightgrey 1px;
+}
 
 
 @media print, screen and (max-width: 960px) {

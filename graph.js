@@ -55,12 +55,41 @@ function updateAdjMatrixHTML(adjLists) {
     $('.adj-matrix.results').html(adjMatrixString);
 }
 
+function makeElDraggable($el, zoom) {
+    var canvasWidth = $(document.body).width();
+    var canvasHeight = $(document.body).height();
+
+    $el.draggable({
+        drag: function(evt,ui) {
+            // zoom fix
+            ui.position.top = Math.round(ui.position.top / zoom);
+            ui.position.left = Math.round(ui.position.left / zoom);
+
+            // don't let draggable go outside canvas
+            if (ui.position.left < 0) {
+                ui.position.left = 0;
+            }
+            if (ui.position.left + $(this).width()*2 > canvasWidth) {
+                ui.position.left = canvasWidth - $(this).width()*2;
+            }
+            if (ui.position.top < 0) {
+                ui.position.top = 0;
+            }
+            if (ui.position.top + $(this).height()*2 > canvasHeight) {
+                ui.position.top = canvasHeight - $(this).height()*2;
+            }
+        }
+    });
+}
+
 $(function() {
     var nodeNbrs = [];
     var cursorX = 500;
     var cursorY = 300;
     var mousedown = false;
     var movingNodeID = -1;
+    var numZooms = 0;
+    var zoomVal = 1;
 
     var usingColor = false;
     var selectedColor = "";
@@ -75,7 +104,7 @@ $(function() {
     var ghostNode = $('<div class="node-ghost" id="node-ghost">');
 
     var nodeCounter = 0;
-    $('.node').draggable();
+    makeElDraggable($('.node'), zoomVal);
     $(window).click(function(e) {
         cursorX = e.pageX;
         cursorY = e.pageY;
@@ -95,7 +124,7 @@ $(function() {
 
         if (shiftKeyPressed) {
             $(document.body).append(node);
-            node.draggable();
+            makeElDraggable(node, zoomVal);
             nodeCounter++;
             nodeNbrs.push([]);
             updateAdjMatrixHTML(nodeNbrs);
@@ -275,4 +304,30 @@ $(function() {
             $('.adj-matrix.results').show();
         }
     });
+
+    $(document).on('click', '.zoom', function() {
+        console.log($('.node').offset().top);
+        zoomIn = $(this).hasClass('inwards');
+        numZooms = zoomIn ? numZooms + 1 : numZooms - 1;
+        zoomVal = zoomIn ? zoomVal*(8.0/7) : zoomVal*(7.0/8);
+        console.log('zoomVal: ' + zoomVal);
+        $('.node').css({'zoom': zoomVal});
+        makeElDraggable($('.node'), zoomVal);
+        $('.line').css({'zoom':zoomVal});
+        console.log(numZooms);
+        if (numZooms < -3) {
+            // no text in nodes anymore
+            $('.node').html('');
+        }
+        if (numZooms == -3 && zoomIn) {
+            $('.node').html(function() {
+                return $(this).attr("id").split(":")[1];
+            });
+        }
+    });
+
+
+
+
+
 });

@@ -84,6 +84,7 @@ html,body {
     background-color:#ff00d4;
 }
 .node, .node-ghost {
+    position:absolute;
     z-index:1;
     border-radius:100%;
     width: 20px;
@@ -115,6 +116,7 @@ html,body {
 }
 
 .adj-matrix.footer {
+    opacity:0.5;
     font-size:20px;
     position:absolute;
     bottom:0;
@@ -149,9 +151,31 @@ html,body {
     -webkit-user-select: text;
     user-select: text;
 }
+.zooms {
+    position:absolute;
+    bottom:0;
+    right:50px;
+    margin:10px;
+}
+.zoom {
+    opacity:0.5;
+    display:inline-block;
+    text-align:center;
+    width:50px;
+    font-size:2.5em;
+    padding:0;
+    margin:0;
+    border: solid white 2px;
+}
+.zoom:hover {
+    cursor:pointer;
+    border: solid lightgrey 2px;
+    opacity:1;
+}
 .adj-matrix.footer:hover{
     border: solid lightgrey 2px;
     color:black;
+    opacity:1;
 }
 
 .selected {
