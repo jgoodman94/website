@@ -23,6 +23,7 @@ html,body {
     box-sizing: border-box;
 }
 .destroyer {
+    display:none;
     /*border: solid black 2px;*/
     opacity:0.15;
     position: absolute;
