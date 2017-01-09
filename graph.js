@@ -77,6 +77,7 @@ function makeElDraggable($el, zoom) {
 }
 
 $(function() {
+    var destroyerOn = false;
     var nodeNbrs = [];
     var cursorX = 500;
     var cursorY = 300;
@@ -208,10 +209,42 @@ $(function() {
         console.log('mouse up!');
     });
 
+    $(document).on('click', '.destroyer', function() {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+            $('body').css('cursor', 'default')
+            destroyerOn = false;
+        } else {
+            $(this).addClass('active')
+            $('body').css('cursor', 'crosshair')
+            destroyerOn = true;
+        }
+    })
+
     $(document).on('click', '.line', function() {
         if (usingColor) {
             $(this).css('border-color', selectedColor);
             $(this).css('background', selectedColor);
+        }
+        if (destroyerOn) {
+            console.log($(this).attr('id'))
+            console.log("before: ");
+            console.log(nodeNbrs)
+            nodes = $(this).attr('id').split(':')[1].split('.');
+            n1 = nodes[0]
+            n2 = nodes[1]
+            var i1 = nodeNbrs[n1].indexOf(n2)
+            var i2 = nodeNbrs[n2].indexOf(n1)
+            if (i1 > -1) {
+                nodeNbrs[n1].splice(i1, 1)
+            }
+            if (i2 > -1) {
+                nodeNbrs[n2].splice(i2, 1)
+            }
+            console.log("after: ");
+            console.log(nodeNbrs)
+            $(this).remove()
+            updateAdjMatrixHTML(nodeNbrs);
         }
     });
 
@@ -254,7 +287,7 @@ $(function() {
                     if (!document.getElementById(lineID)) {
                         line = createLine(selectedNodeX, selectedNodeY, currNodeX, currNodeY);
                         line.attr('id', lineID);
-                    
+
                         // update data structure
                         nodeNbrs[currNodeID].push(selectedNodeID);
                         nodeNbrs[selectedNodeID].push(currNodeID);
@@ -268,9 +301,60 @@ $(function() {
                     selectedNodeY = 0;
                 }
             }
+        } else if (destroyerOn) { // still some glitch here ...
+            nodeID = $(this).attr('id').split(':')[1];
+            // remove edges
+            for (count = 0; count < nodeNbrs[nodeID].length; count++) {
+                var nbrID = nodeNbrs[nodeID][count]
+                var lineID = "edge:";
+                if (nodeID < nbrID) {
+                    lineID += nodeID + "." + nbrID;
+                } else {
+                    lineID += nbrID + "." + nodeID;
+                }
+                var line = document.getElementById(lineID);
+                line.remove()
+            }
+            // remove node
+            $(this).remove()
+            // relabel nodes
+            nodeCounter--
+            $('.node').each(function() {
+                nID = parseInt($(this).attr('id').split(":")[1])
+                if (nID > nodeID) {
+                    nID--
+                }
+                $(this).attr('id', 'node:' + nID)
+                $(this).text(nID)
+            })
+            // relabel edges
+            $('.line').each(function() {
+                v1 = parseInt($(this).attr('id').split(":")[1].split(".")[0])
+                v2 = parseInt($(this).attr('id').split(":")[1].split(".")[1])
+                if (v1 > nodeID) {
+                    v1--
+                }
+                if (v2 > nodeID) {
+                    v2--
+                }
+                $(this).attr('id', 'edge:' + v1 + '.' + v2)
+            })
+            // adjust nodeNbrs
+            for (ct=0; ct<nodeNbrs.length; ct++) {
+                nodeNbrs[ct].splice(nodeNbrs[ct].indexOf(nodeID), 1)
+            }
+            nodeNbrs.splice(nodeID, 1)
+            updateAdjMatrixHTML(nodeNbrs)
         }
     });
-    
+    $(document).on('mouseover', '.node', function() {
+        if (destroyerOn) {
+            $(this).css('cursor', 'crosshair');
+        } else {
+            $(this).css('cursor', 'move')
+        }
+    })
+
     $(document).on('click', '.color', function() {
         if ($('.colors').hasClass('color-select')) {
             if ($(this).hasClass('color-select')) {
