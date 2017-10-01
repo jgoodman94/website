@@ -358,10 +358,10 @@ $(function() {
         $(this).hide();
     });
     $('.second').click(function() {
-        $('#overlay').show();
-        $('#contact').show('drop');
-        $('#close').show();
-        $('#name').focus();
+        //$('#overlay').show();
+        //$('#contact').show('drop');
+        //$('#close').show();
+        //$('#name').focus();
     });
     $('#close').click(function() {
         $(this).hide();
