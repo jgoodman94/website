@@ -357,12 +357,12 @@ $(function() {
         $('#terms').hide('drop');
         $(this).hide();
     });
-    $('.second').click(function() {
+    //$('.second').click(function() {
         //$('#overlay').show();
         //$('#contact').show('drop');
         //$('#close').show();
         //$('#name').focus();
-    });
+    //});
     $('#close').click(function() {
         $(this).hide();
         $('#contact').hide('drop');
