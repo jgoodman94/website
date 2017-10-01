@@ -87,11 +87,6 @@
         </div>
 
         <div id="contact">
-
-            <?php if ($_POST[ "email"]<>'') { $ToEmail = 'jpmg@princeton.edu'; $EmailSubject = 'Instructacus Feedback'; $mailheader = "From: ".$_POST["email"]."\r\n"; $mailheader .= "Reply-To: ".$_POST["email"]."\r\n"; $mailheader .= "Content-type: text/html; charset=iso-8859-1\r\n"; $MESSAGE_BODY = "Name: ".$_POST["name"]."\n"; $MESSAGE_BODY .= "Email: ".$_POST["email"]."\n\n"; $MESSAGE_BODY .= "Comment: ".nl2br($_POST["comment"]).""; mail($ToEmail, $EmailSubject, $MESSAGE_BODY, $mailheader) or die ("Failure"); echo '
-            <script>
-                window.location = "/";
-            </script>'; } else { ?>
             <h2>Let us know how we're doing.</h2>
             <h4>Questions? Comments? Concerns? We'd love to hear from you.</h4>
             <form action="/" method="post">
@@ -118,7 +113,6 @@
                     </tr>
                 </table>
             </form>
-            <?php }; ?>
         </div>
 
         <input type="button" value="Home" id="goHome" onClick="window.location.reload()">
