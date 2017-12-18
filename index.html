@@ -94,7 +94,7 @@
     <!-- pubs -->
     <h3 class="section-title"><a class="anchor" href="#publications" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>publications</h3>
     <p>
-        <span><b><a href="http://pubs.rsc.org/en/content/articlepdf/2013/SM/C2SM27444B" target="_blank">"Carbon nanotube bundling: influence on layer-by-layer assembly and antimicrobial activity."</a></b> <em>Soft Matter</em>, 2013.</span>
+        <span><b><a href="http://pubs.rsc.org/en/content/articlepdf/2013/SM/C2SM27444B" target="_blank" id="cnt">"Carbon nanotube bundling: influence on layer-by-layer assembly and antimicrobial activity."</a></b> <em>Soft Matter</em>, 2013.</span>
     </p>
 
     <h3 class="section-title"><a class="anchor" href="#teaching" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>teaching</h3>
@@ -108,8 +108,20 @@
         m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
               })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
-  ga('create', 'UA-100853299-1', 'auto');
+    ga('create', 'UA-100853299-1', 'auto');
     ga('send', 'pageview');
+
+    function pubs(pub_name) {
+        ga('send', {
+            hitType: 'event',
+            eventCategory: 'pubs',
+            eventAction: 'open',
+            eventLabel: pub_name
+        });
+    }
+
+    document.getElementById("cnt").onclick = function() { pubs('carbon nanotubes');};
+
 
   </script>
   </html>
